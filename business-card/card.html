@@ -65,6 +65,16 @@
   .col.right { gap: 13px; }
   .col.right .item .ic { width: 46px; height: 46px; }
   .col.right .item .ic svg { width: 22px; height: 22px; }
+
+  /* optional illustrations for the front panel (?art=funnel|target|network) */
+  .art { position: absolute; left: 735px; top: 120px; width: 290px; height: 360px; display: none; }
+  .art svg { width: 100%; height: 100%; fill: none; stroke: url(#artGold); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .art .fill { fill: url(#artGold); stroke: none; }
+  .art .faint { opacity: .35; }
+  .art-label { position: absolute; left: 735px; width: 290px; top: 492px; text-align: center; font-size: 12px; letter-spacing: .32em; color: var(--gold-light); opacity: .8; display: none; }
+  body[data-art] #front .monogram { display: none; }
+  body[data-art="funnel"] .art.funnel, body[data-art="target"] .art.target, body[data-art="network"] .art.network,
+  body[data-art] .art-label { display: block; }
 </style>
 </head>
 <body>
@@ -89,6 +99,50 @@
     <span style="left:6px; top:110px; font-size:150px;">W</span>
     <span style="left:84px; top:124px; font-size:140px;">M</span>
   </div>
+
+
+  <svg width="0" height="0" style="position:absolute"><defs>
+    <linearGradient id="artGold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ecd0a4"/><stop offset=".5" stop-color="#c49463"/><stop offset="1" stop-color="#8a5f35"/></linearGradient>
+  </defs></svg>
+
+  <!-- 1. Lead funnel -->
+  <div class="art funnel"><svg viewBox="0 0 290 360">
+    <g class="faint"><path d="M145 0v40M95 8l14 34M195 8l-14 34M55 26l26 26M235 26l-26 26"/></g>
+    <circle class="fill" cx="70" cy="70" r="5"/><circle class="fill" cx="112" cy="58" r="5"/><circle class="fill" cx="150" cy="66" r="5"/>
+    <circle class="fill" cx="188" cy="56" r="5"/><circle class="fill" cx="222" cy="72" r="5"/><circle class="fill" cx="96" cy="84" r="4"/><circle class="fill" cx="200" cy="86" r="4"/>
+    <ellipse cx="145" cy="104" rx="120" ry="14"/>
+    <path d="M25 104 L105 248 V316 H185 V248 L265 104"/>
+    <path d="M58 164h174M88 212h114" class="faint"/>
+    <path d="M70 164 a75 9 0 0 0 150 0M98 212 a47 6 0 0 0 94 0"/>
+    <circle cx="145" cy="345" r="10"/><path d="M140 345l4 4 7-8"/>
+  </svg></div>
+
+  <!-- 2. Target / campaign -->
+  <div class="art target"><svg viewBox="0 0 290 360">
+    <g class="faint"><path d="M145 20v30M145 310v30M10 180h30M250 180h30M50 85l20 20M240 85l-20 20M50 275l20-20M240 275l-20-20"/></g>
+    <circle cx="145" cy="180" r="105"/><circle cx="145" cy="180" r="78" class="faint"/><circle cx="145" cy="180" r="52"/><circle cx="145" cy="180" r="26" class="faint"/>
+    <circle class="fill" cx="145" cy="180" r="9"/>
+    <path d="M152 173 L262 63"/><path d="M262 63l-4 22M262 63l-22 4M250 75l-4 22M250 75l-22 4"/>
+    <path d="M155 170l14 2-2-14z" class="fill"/>
+  </svg></div>
+
+  <!-- 3. Lead network -->
+  <div class="art network"><svg viewBox="0 0 290 360">
+    <circle cx="145" cy="180" r="130" class="faint" stroke-dasharray="2 8"/>
+    <path d="M145 180 L145 62M145 180 L250 120M145 180 L250 245M145 180 L145 300M145 180 L40 245M145 180 L40 120" class="faint"/>
+    <path d="M145 62 L250 120 L250 245 L145 300 L40 245 L40 120 Z" class="faint" stroke-dasharray="3 6"/>
+    <circle cx="145" cy="180" r="38"/><circle cx="145" cy="168" r="11"/><path d="M123 202a22 18 0 0 1 44 0"/>
+    <g>
+      <circle cx="145" cy="62" r="18"/><circle cx="145" cy="57" r="5"/><path d="M136 70a9 7 0 0 1 18 0"/>
+      <circle cx="250" cy="120" r="18"/><circle cx="250" cy="115" r="5"/><path d="M241 128a9 7 0 0 1 18 0"/>
+      <circle cx="250" cy="245" r="18"/><circle cx="250" cy="240" r="5"/><path d="M241 253a9 7 0 0 1 18 0"/>
+      <circle cx="145" cy="300" r="18"/><circle cx="145" cy="295" r="5"/><path d="M136 308a9 7 0 0 1 18 0"/>
+      <circle cx="40" cy="245" r="18"/><circle cx="40" cy="240" r="5"/><path d="M31 253a9 7 0 0 1 18 0"/>
+      <circle cx="40" cy="120" r="18"/><circle cx="40" cy="115" r="5"/><path d="M31 128a9 7 0 0 1 18 0"/>
+    </g>
+  </svg></div>
+
+  <div class="art-label"></div>
 
   <div class="content">
     <div class="logo">
@@ -145,5 +199,10 @@
   </div>
 </div>
 
+<script>
+  const art = new URLSearchParams(location.search).get('art');
+  const labels = { funnel: 'LEADS · NURTURE · CONVERT', target: 'STRATEGY · REACH · RESULTS', network: 'CONNECT · ENGAGE · GROW' };
+  if (labels[art]) { document.body.dataset.art = art; document.querySelector('.art-label').textContent = labels[art]; }
+</script>
 </body>
 </html>
